@@ -1,0 +1,30 @@
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+acl woody {
+	51.83.33.53;
+	localhost;
+};
+
+view internal {
+	match-clients { woody; };
+    recursion yes;
+    allow-recursion { woody; };
+    zone "kevvan-ephec-ti.be" {
+        type master;
+        file "/etc/bind/db.local.kevin.ephec-ti.be";
+    };
+};
+
+view external {
+    match-clients { any; };
+    zone "kevvan-ephec-ti.be" {
+        type master;
+        file "/etc/bind/db.kevin.ephec-ti.be";
+    };
+};
